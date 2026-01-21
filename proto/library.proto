@@ -1,0 +1,99 @@
+syntax = "proto3";
+
+package library;
+
+service LibraryService {
+  rpc CreateBook(CreateBookRequest) returns (BookResponse);
+  rpc UpdateBook(UpdateBookRequest) returns (BookResponse);
+  rpc ListBooks(ListBooksRequest) returns (ListBooksResponse);
+
+  rpc CreateMember(CreateMemberRequest) returns (MemberResponse);
+  rpc UpdateMember(UpdateMemberRequest) returns (MemberResponse);
+  rpc ListMembers(ListMembersRequest) returns (ListMembersResponse);
+
+  rpc BorrowBook(BorrowBookRequest) returns (LoanResponse);
+  rpc ReturnBook(ReturnBookRequest) returns (LoanResponse);
+  rpc ListBorrowedBooks(ListBorrowedBooksRequest) returns (ListBorrowedBooksResponse);
+}
+
+message Book {
+  int64 id = 1;
+  string title = 2;
+  string author = 3;
+  string isbn = 4;
+  int32 published_year = 5;
+}
+
+message Member {
+  int64 id = 1;
+  string name = 2;
+  string email = 3;
+  string phone = 4;
+}
+
+message Loan {
+  int64 id = 1;
+  int64 book_id = 2;
+  int64 member_id = 3;
+  string borrowed_at = 4;
+  string due_at = 5;
+  string returned_at = 6;
+}
+
+message CreateBookRequest {
+  Book book = 1;
+}
+
+message UpdateBookRequest {
+  Book book = 1;
+}
+
+message BookResponse {
+  Book book = 1;
+}
+
+message ListBooksRequest {}
+
+message ListBooksResponse {
+  repeated Book books = 1;
+}
+
+message CreateMemberRequest {
+  Member member = 1;
+}
+
+message UpdateMemberRequest {
+  Member member = 1;
+}
+
+message MemberResponse {
+  Member member = 1;
+}
+
+message ListMembersRequest {}
+
+message ListMembersResponse {
+  repeated Member members = 1;
+}
+
+message BorrowBookRequest {
+  int64 book_id = 1;
+  int64 member_id = 2;
+  string due_at = 3;
+}
+
+message ReturnBookRequest {
+  int64 loan_id = 1;
+}
+
+message LoanResponse {
+  Loan loan = 1;
+}
+
+message ListBorrowedBooksRequest {
+  int64 member_id = 1;
+}
+
+message ListBorrowedBooksResponse {
+  repeated Loan loans = 1;
+}
